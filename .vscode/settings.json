@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ts": "typescript",
+        "string": "cpp",
+        "optional": "cpp"
+    }
+}
