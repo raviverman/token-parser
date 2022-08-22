@@ -38,6 +38,9 @@ int main(int argc, char const* argv[])
     Cli cli;
     while (std::cin) {
         std::string input = cli.displayPrompt();
+        if ( input.empty() ) {
+            continue; // no input at prompt, continue
+        }
         // parse integer
         auto p = NumberParser(input);
         auto result = p.parseNumber();
@@ -49,5 +52,6 @@ int main(int argc, char const* argv[])
             std::cout << "Not a number" << std::endl;
         }
     }
+    std::cout<<std::endl; //shell prompt at newline
     return 0;
 }

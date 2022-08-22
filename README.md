@@ -12,6 +12,7 @@ Needs `cmake` to compile the code.
 ## How to run
 ```
 cd token-parser 
+cmake .
 cmake --build .
 bld/main
 ```
