@@ -16,6 +16,11 @@ add_library(parser SHARED src/parser.cpp)
 add_library(number_parser SHARED src/number_parser.cpp)
 target_link_libraries(number_parser PUBLIC parser)
 
+add_library(expression SHARED src/expression.cpp)
+
+add_library(expression_parser SHARED src/expression_parser.cpp)
+target_link_libraries(expression_parser PUBLIC parser number_parser expression)
+
 # add the executable
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC parser number_parser)
+target_link_libraries(main PUBLIC parser number_parser expression_parser)

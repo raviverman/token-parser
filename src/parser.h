@@ -24,9 +24,9 @@ enum ParserOption {
 class ParserBase {
     std::string m_input;
     int m_current_pos;
-    std::string m_err_msg;
 
 protected:
+    std::stringstream m_err_msg;
     std::stringstream m_parse_info;
     ParserOption m_parse_opt;
 
@@ -41,6 +41,8 @@ public:
     int pos();
     // returns the input
     std::string input();
+    // returns err set by the parser
+    std::string errMessage();
     // function that returns additional (debug) info about parsing
     // can be overridden by derieved classes to provide specific functionality
     std::string parseInfo();

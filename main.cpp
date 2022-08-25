@@ -11,6 +11,7 @@
  * Copyright 2022 - 2022 Ravi Verman, Ravi Verman
  */
 
+#include "src/expression_parser.h"
 #include "src/number_parser.h"
 #include <iostream>
 #include <string>
@@ -38,7 +39,7 @@ int main(int argc, char const* argv[])
     Cli cli;
     while (std::cin) {
         std::string input = cli.displayPrompt();
-        if ( input.empty() ) {
+        if (input.empty()) {
             continue; // no input at prompt, continue
         }
         // parse integer
@@ -48,10 +49,17 @@ int main(int argc, char const* argv[])
         if (result.has_value()) {
             std::cout << "Result: " << result.value() << std::endl
                       << p.parseInfo() << std::endl;
+            continue;
+        }
+        auto pp = ExpressionParser(input);
+        auto exp = pp.parseExpression();
+        if (exp.has_value()) {
+            std::cout << "Expression: " << exp.value()->expand() << std::endl;
+            continue;
         } else {
-            std::cout << "Not a number" << std::endl;
+            std::cout << "Error: " << pp.parseInfo() << std::endl;
         }
     }
-    std::cout<<std::endl; //shell prompt at newline
+    std::cout << std::endl; // shell prompt at newline
     return 0;
 }

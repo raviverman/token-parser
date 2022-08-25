@@ -29,6 +29,11 @@ std::string ParserBase::parseInfo()
     return m_parse_info.str();
 }
 
+std::string ParserBase::errMessage()
+{
+    return m_err_msg.str();
+}
+
 void ParserBase::next(int n)
 {
     m_current_pos += n;
