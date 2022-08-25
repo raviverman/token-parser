@@ -167,10 +167,13 @@ std::optional<double> NumberParser::parseNumber()
                  << " Fraction: " << fraction.value()
                  << " Exponent: " << exponent.value();
 
-    consumeAll(' '); // consume all whitespace ( only ' '  for now )
-    if (!eoi()) {
-        //
-        return std::nullopt;
+    // return error if trailing content is a not whitespace.
+    if (m_parse_opt == ALL) {
+        consumeAll(' '); // consume all whitespace ( only ' '  for now )
+        if (!eoi()) {
+            //
+            return std::nullopt;
+        }
     }
     return result;
 }

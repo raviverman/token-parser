@@ -14,14 +14,24 @@
 #include "parser.h"
 
 namespace Parser {
+int ParserBase::pos()
+{
+    return m_current_pos;
+}
+
+std::string ParserBase::input()
+{
+    return m_input;
+}
+
 std::string ParserBase::parseInfo()
 {
     return m_parse_info.str();
 }
 
-void ParserBase::next()
+void ParserBase::next(int n)
 {
-    m_current_pos++;
+    m_current_pos += n;
 }
 
 // returns true if end of input has been reached
@@ -109,8 +119,9 @@ std::optional<char> ParserBase::peek(int index)
 std::string ParserBase::consumeAll(const char& character)
 {
     int curr_pos = m_current_pos;
-    while (!eoi() && character == m_input[m_current_pos++])
-        ;
+    while (!eoi() && character == m_input[m_current_pos]) {
+        m_current_pos++;
+    }
     return m_input.substr(curr_pos, m_current_pos - curr_pos);
 }
 

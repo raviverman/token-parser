@@ -10,13 +10,17 @@
  * SPDX-License-Identifier: GPL-2.0-only
  * Copyright 2022 - 2022 Ravi Verman, Ravi Verman
  */
-
+#pragma once
 #include <iostream>
 #include <optional>
 #include <sstream>
 #include <string>
 
 namespace Parser {
+enum ParserOption {
+    ALL, // parse the whole input as the type
+    FIRST, // parse the input and return asap
+};
 class ParserBase {
     std::string m_input;
     int m_current_pos;
@@ -24,18 +28,24 @@ class ParserBase {
 
 protected:
     std::stringstream m_parse_info;
+    ParserOption m_parse_opt;
 
 public:
-    ParserBase(std::string input)
+    ParserBase(std::string input, int pos = 0, ParserOption parse_opt = ALL)
     {
         m_input = input;
-        m_current_pos = 0;
+        m_current_pos = pos;
+        m_parse_opt = parse_opt;
     }
+    // returns current position in the input string
+    int pos();
+    // returns the input
+    std::string input();
     // function that returns additional (debug) info about parsing
     // can be overridden by derieved classes to provide specific functionality
     std::string parseInfo();
-    // moves one position to the right
-    void next();
+    // moves `n` positions to the right
+    void next(int n = 1);
     // returns true if end of input has been reached
     bool eoi(int index = 0);
     // returns true if the next element is the given character

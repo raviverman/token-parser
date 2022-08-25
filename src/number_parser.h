@@ -16,12 +16,12 @@
 namespace Parser {
 class NumberParser : public ParserBase {
 public:
-    NumberParser(std::string input)
-        : ParserBase(input)
+    NumberParser(std::string input, int pos = 0, ParserOption parse_opt = ALL)
+        : ParserBase(input, pos, parse_opt)
     {
     }
     // returns if the given char is a digit
-    bool isDigit(char character);
+    static bool isDigit(char character);
     // consumes only if next character is a sign
     char parseSign();
     // parses single integer.g. "3"
@@ -37,4 +37,5 @@ public:
     // returns a parsed number
     std::optional<double> parseNumber();
 };
+static bool isDigit(char character);
 } // namespace Parser
