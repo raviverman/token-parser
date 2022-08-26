@@ -95,7 +95,7 @@ std::optional<ExpressionBase*> ExpressionParser::parseExpression()
         auto secondExp = parseExpression();
         if (!secondExp.has_value()) {
             if (m_err_msg.str().empty())
-            m_err_msg << "Expected second operand after operator " << OpString[op.value()];
+                m_err_msg << "Expected second operand after operator " << OpString[op.value()];
             return secondExp;
         }
         auto newExp = new BinaryExpression(firstExp, secondExp.value(), op.value());

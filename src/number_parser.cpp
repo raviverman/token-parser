@@ -94,9 +94,12 @@ std::optional<double> NumberParser::parseFraction()
 
     // non-zero digits
     auto integers = parseDigits();
-    // if . present, it has to be followed by atleast one int
+    // if . present, it has to be followed by atleast one int (zero or non-zero)
     if (!integers.has_value()) {
-        return std::nullopt;
+        if (zeros == 1.0) { // no integer after decimal
+            return std::nullopt;
+        }
+        integers = 0;
     }
     int64_t int_result = integers.value();
     double fraction = 0.0;
