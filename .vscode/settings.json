@@ -65,7 +65,8 @@
         "algorithm": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iomanip": "cpp"
     },
     "psi-header.variables": [
         [

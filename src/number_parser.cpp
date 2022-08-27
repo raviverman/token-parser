@@ -164,7 +164,7 @@ std::optional<double> NumberParser::parseNumber()
         return std::nullopt;
     }
     result += integer.value();
-    result += fraction.value();
+    result += result > 0 ? fraction.value() : -1 * fraction.value();
     result *= exponent.value();
     m_parse_info << "Integer: " << integer.value()
                  << " Fraction: " << fraction.value()
