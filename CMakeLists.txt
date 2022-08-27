@@ -24,3 +24,8 @@ target_link_libraries(expression_parser PUBLIC parser number_parser expression)
 # add the executable
 add_executable(main main.cpp)
 target_link_libraries(main PUBLIC parser number_parser expression_parser)
+
+# Benchmark target - not built from by default "cmake --build . --target=benchmark"/"make benchmark"
+add_executable(benchmark benchmark/test_number_parser.cpp)
+target_link_libraries(benchmark PUBLIC parser number_parser)
+SET_TARGET_PROPERTIES(benchmark PROPERTIES EXCLUDE_FROM_ALL True)
