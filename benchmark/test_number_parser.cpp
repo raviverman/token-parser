@@ -1,3 +1,16 @@
+/*
+ * File: test_number_parser.cpp
+ * Project: token-parser
+ * File Created: Friday, 26th August 2022 7:03:38 pm
+ * Author: Ravi Verman (raviverman@hotmail.com)
+ * -----
+ * Last Modified: Sunday, 28th August 2022 8:22:02 pm
+ * Modified By: Ravi Verman (raviverman@hotmail.com)
+ * -----
+ * SPDX-License-Identifier: GPL-2.0-only 
+ * Copyright 2022 - 2022 Ravi Verman, Ravi Verman
+ */
+
 #include "../src/number_parser.h"
 #include <bitset>
 #include <chrono>
