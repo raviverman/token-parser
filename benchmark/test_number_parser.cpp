@@ -8,12 +8,12 @@
 #include <sstream>
 #include <string>
 
-#define TIME(call, type)                                                          \
-    do {                                                                          \
-        auto start_##type = high_resolution_clock::now();                         \
-        value_##type = call;                                                      \
-        auto end_##type = high_resolution_clock::now();                           \
-        duration_##type = duration_cast<microseconds>(end_##type - start_##type); \
+#define TIME(call, type)                                                         \
+    do {                                                                         \
+        auto start_##type = high_resolution_clock::now();                        \
+        value_##type = call;                                                     \
+        auto end_##type = high_resolution_clock::now();                          \
+        duration_##type = duration_cast<nanoseconds>(end_##type - start_##type); \
     } while (0);
 
 // some test numbers
@@ -29,6 +29,20 @@ std::string input[] = {
     "1.7976931348623157E+307",
 };
 
+union DoubleBytes {
+    char bytes[8];
+    double value;
+};
+
+DoubleBytes nextRandom()
+{
+    DoubleBytes db;
+    for (int i = 0; i < 8; i++) {
+        db.bytes[i] = std::rand();
+    }
+    return db;
+}
+
 using namespace std::chrono;
 int main(int argc, char const* argv[])
 {
@@ -43,17 +57,34 @@ int main(int argc, char const* argv[])
               << std::endl;
     for (auto i : input) {
         double value_stnd, value_custom;
-        microseconds duration_stnd, duration_custom;
+        nanoseconds duration_stnd, duration_custom;
         auto parser = Parser::NumberParser(i);
         TIME(parser.parseNumber().value(), custom);
         TIME(std::stod(i), stnd);
         std::cout << std::setw(25) << i
-                  << std::setw(15) << duration_stnd.count() << "us "
+                  << std::setw(15) << duration_stnd.count() << "ns "
                   << std::setw(15) << value_stnd
-                  << std::setw(15) << duration_custom.count() << "us "
+                  << std::setw(15) << duration_custom.count() << "ns "
                   << std::setw(15) << value_custom
                   << std::setw(25) << (value_custom - value_stnd)
                   << std::endl;
     }
+    std::stringstream ss;
+    double avgTime = 0;
+    int MAX = 50;
+    for (int i = 0; i < MAX; i++) {
+        double value_stnd, value_custom;
+        nanoseconds duration_stnd, duration_custom;
+        auto random = nextRandom();
+        ss << random.value; // convert double into string
+        auto parser = Parser::NumberParser(ss.str());
+        TIME(parser.parseNumber().value(), custom);
+        TIME(std::stod(ss.str()), stnd);
+        // std::cout << duration_custom.count() << " " << duration_stnd.count() << std::endl;
+        avgTime += ((double)duration_custom.count() / duration_stnd.count());
+        ss.str(""); // reset string stream
+    }
+    avgTime /= MAX;
+    std::cout << "Custom parser is " << avgTime << "x slower than standard parser" << std::endl;
     return 0;
 }
