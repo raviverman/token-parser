@@ -55,6 +55,8 @@ int main(int argc, char const* argv[])
         auto exp = pp.parseExpression();
         if (exp.has_value()) {
             std::cout << "Expression: " << exp.value()->expand() << std::endl;
+            exp.value()->printTree(std::cout, 0);
+            std::cout<< "Solution: "<< exp.value()->solve()<<std::endl;
             continue;
         } else {
             std::cout << "Error: " << pp.parseInfo() << std::endl;

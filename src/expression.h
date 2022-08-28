@@ -13,6 +13,7 @@
 
 #pragma once
 #include "operator.h"
+#include <iostream>
 
 using namespace Operator;
 
@@ -33,6 +34,8 @@ public:
     virtual double solve() = 0;
     // returns expanded expression
     virtual std::string expand() = 0;
+    // prints expression tree
+    virtual void printTree(std::ostream&, int) = 0;
     // destructing the child using parent's pointer
     // fully deletes it
     virtual ~ExpressionBase() = default;
@@ -49,6 +52,7 @@ public:
     }
     double solve();
     std::string expand();
+    void printTree(std::ostream&, int);
 };
 
 // Used with binary operators
@@ -66,6 +70,7 @@ public:
     }
     double solve();
     std::string expand();
+    void printTree(std::ostream&, int);
 };
 
 };

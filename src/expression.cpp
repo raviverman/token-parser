@@ -29,15 +29,28 @@ std::string Operand::expand()
         en_open = "( ";
         en_close = " )";
     }
-    ss << en_open << "OPRAND(" << m_value << ")" << en_close;
+    ss << en_open << "OPERAND(" << m_value << ")" << en_close;
     return ss.str();
+}
+
+void Operand::printTree(std::ostream& out, int tabs)
+{
+    std::string tab;
+    tab.append("|", 1);
+    for (int i = 0; i < tabs; i++) {
+        tab.append("---", 3);
+        tab.append("|", 1);
+    }
+    tab[tab.length() - 1] = '>';
+    out << tab << m_value << std::endl;
 }
 
 double BinaryExpression::solve()
 {
-    // Instantiate Operator based on type
-    // and call with the operator
-    return 123;
+    OperatorBase* op = OperatorFactory::BinaryOperatorFactory(m_op_type);
+    auto result = op->operate(m_operand1->solve(), m_operand2->solve());
+    delete op;
+    return result;
 }
 
 std::string BinaryExpression::expand()
@@ -54,5 +67,18 @@ std::string BinaryExpression::expand()
        << m_operand2->expand()
        << en_close;
     return ss.str();
+}
+
+void BinaryExpression::printTree(std::ostream& out, int tabs)
+{
+    std::string tab;
+    tab.append("|", 1);
+    for (int i = 0; i < tabs; i++) {
+        tab.append("---", 3);
+        tab.append("|", 1);
+    }
+    out << tab << Operator::OpString[m_op_type] << std::endl;
+    m_operand1->printTree(out, tabs + 1);
+    m_operand2->printTree(out, tabs + 1);
 }
 }; // namespace Expression

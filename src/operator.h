@@ -43,5 +43,48 @@ public:
     // implemented by derieved classes
     OperatorType operatorType() { return m_op_type; }
     virtual double operate(double operand1, double operand2) = 0;
+    virtual ~OperatorBase() = default;
 };
+
+class AddOperator : virtual public OperatorBase {
+public:
+    AddOperator()
+    {
+        m_op_type = Operator::ADD;
+    }
+    double operate(double operand1, double operand2);
+};
+
+class SubtractOperator : virtual public OperatorBase {
+public:
+    SubtractOperator()
+    {
+        m_op_type = Operator::SUBTRACT;
+    }
+    double operate(double operand1, double operand2);
+};
+
+class MultiplyOperator : virtual public OperatorBase {
+public:
+    MultiplyOperator()
+    {
+        m_op_type = Operator::MULTIPLY;
+    }
+    double operate(double operand1, double operand2);
+};
+
+class DivideOperator : virtual public OperatorBase {
+public:
+    DivideOperator()
+    {
+        m_op_type = Operator::DIVIDE;
+    }
+    double operate(double operand1, double operand2);
+};
+
+class OperatorFactory {
+public:
+    static OperatorBase* BinaryOperatorFactory(OperatorType op_type);
+};
+
 };
