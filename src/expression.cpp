@@ -32,7 +32,10 @@ std::string Operand::expand()
     ss << en_open << "OPERAND(" << m_value << ")" << en_close;
     return ss.str();
 }
-
+void Operand::negate()
+{
+    m_value *= -1;
+}
 OperatorType Operand::opType()
 {
     return OperatorType::NONE;
@@ -97,6 +100,14 @@ OperatorType BinaryExpression::changeOperator(OperatorType op)
     auto temp_op = m_op_type;
     m_op_type = op;
     return temp_op;
+}
+void BinaryExpression::negateFirst()
+{
+    if (m_operand1->expType() == BINARY) {
+        ((BinaryExpression*)m_operand1)->negateFirst();
+    } else if (m_operand1->expType() == UNARY) {
+        ((Operand*)m_operand1)->negate();
+    }
 }
 void BinaryExpression::rearrange()
 {

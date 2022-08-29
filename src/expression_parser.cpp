@@ -98,6 +98,19 @@ std::optional<ExpressionBase*> ExpressionParser::parseExpression()
                 m_err_msg << "Expected second operand after operator " << OpString[op.value()];
             return secondExp;
         }
+
+        // Interpret subtraction as addition of negative numbers
+        // 10 - 20 - 30 solves to -10 as expression tree is 10 - ( 20 - 30 )
+        // 10 + (-20) + (-30) solves to -40
+        if (op.value() == Operator::SUBTRACT) {
+            if (secondExp.value()->expType() == Expression::UNARY) {
+                op = Operator::ADD;
+                ((Operand*)secondExp.value())->negate();
+            } else if (secondExp.value()->expType() == Expression::BINARY) {
+                op = Operator::ADD;
+                ((BinaryExpression*)secondExp.value())->negateFirst();
+            }
+        }
         auto newExp = new BinaryExpression(firstExp, secondExp.value(), op.value());
         m_allocated_expression.push_back(newExp);
         return newExp;
