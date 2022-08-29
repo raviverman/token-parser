@@ -18,7 +18,8 @@ enum OperatorType {
     ADD,
     SUBTRACT,
     MULTIPLY,
-    DIVIDE
+    DIVIDE,
+    NONE,
 };
 
 char OpString[][25] = {
@@ -26,6 +27,7 @@ char OpString[][25] = {
     "SUBTRACT",
     "MULTIPLY",
     "DIVIDE",
+    "NONE",
 };
 
 char OpSign[][3] = {
@@ -33,6 +35,14 @@ char OpSign[][3] = {
     "-",
     "*",
     "/",
+    "",
+};
+uint8_t OpPrecedence[5] = {
+    0, // ADD
+    0, // SUBTRACT
+    1, // MULTIPLY
+    1, // DIVIDE
+    10, // NONE - HIGHEST PRECEDENCE
 };
 
 class OperatorBase {

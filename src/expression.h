@@ -31,6 +31,9 @@ public:
     {
         return m_enclosed;
     }
+    virtual OperatorType opType() = 0;
+    // rearranges expression based on precedence of operator
+    virtual void rearrange() = 0;
     virtual double solve() = 0;
     // returns expanded expression
     virtual std::string expand() = 0;
@@ -50,6 +53,8 @@ public:
     {
         m_value = value;
     }
+    OperatorType opType();
+    void rearrange() {};
     double solve();
     std::string expand();
     void printTree(std::ostream&, int);
@@ -68,7 +73,12 @@ public:
         m_operand2 = opd2;
         m_op_type = op_type;
     }
+    OperatorType changeOperator(OperatorType);
+    ExpressionBase* changeOperand2(ExpressionBase*);
+    void swapOperand();
+    OperatorType opType();
     double solve();
+    void rearrange();
     std::string expand();
     void printTree(std::ostream&, int);
 };

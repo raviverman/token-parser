@@ -31,6 +31,8 @@ OperatorFactory::BinaryOperatorFactory(OperatorType op_type)
         return new MultiplyOperator();
     case OperatorType::DIVIDE:
         return new DivideOperator();
+    case OperatorType::NONE:
+        assert(false); // Never create a none operator
     };
 }
 };
